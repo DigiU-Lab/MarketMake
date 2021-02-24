@@ -17,8 +17,8 @@ var vm = new Vue({
       bscChainId: '',
       tokenFrom: '',
       tokenTo: '',
-      amountFrom: 0,
-      amountTo: 0,
+      amountFrom: '',
+      amountTo: '',
       accountFrom: '',
       accountTo: '',
       chainFrom: '',
@@ -52,12 +52,15 @@ var vm = new Vue({
         calcAmount('from');
         await getAllAllowance();
         }
-        exchButtons(1,1,'amo')
+        // exchButtons(1,1,'amo')
       },
 
-        amountTo: function() {
+        amountTo: async function() {
         if (document.activeElement.id == 'num2' ) {
-        calcAmount('to')
+            amountTo = document.getElementById(document.activeElement.id).value;
+            console.log(`amountTo ${vm.amountTo}`)
+            calcAmount('to');
+            await getAllAllowance();
         }
         
       },
@@ -134,8 +137,11 @@ var meta2 = 'Connect to MetaMask', meta1 = 'Install MetaMask';
   function calcAmount(ft) {
      if (ft == 'from' && (vm.amountFrom === '' || vm.amountFrom == 0 ) ) {vm.amountTo = ''; return}
      if (ft == 'to' && (vm.amountTo === '' || vm.amountTo == 0) ) {vm.amountFrom = ''; return}
-
-     if (ft == 'from') { vm.amountTo = BigNumber(vm.amountFrom).times(vm.currentPrice); } else { vm.amountFrom = BigNumber(vm.amountTo).div(vm.currentPrice)} ;
+     if (ft == 'from' ) {
+         vm.amountTo = (vm.chainFrom.name == 'Rinkeby') ? BigNumber(vm.amountFrom).times(vm.currentPrice) : BigNumber(vm.amountFrom).div(vm.currentPrice);
+     } else {
+         vm.amountFrom = (vm.chainTo.name == 'BSC testnet') ? BigNumber(vm.amountTo).div(vm.currentPrice) : BigNumber(vm.amountTo).times(vm.currentPrice);
+     }
 
   }
 
