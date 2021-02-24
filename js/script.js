@@ -52,7 +52,7 @@ var vm = new Vue({
         calcAmount('from');
         await getAllAllowance();
         }
-        exchButtons(1,1,'amo')
+        // exchButtons(1,1,'amo')
       },
 
         amountTo: async function() {
