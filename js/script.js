@@ -451,7 +451,8 @@ await confirmSwapBSC();
          accs = accounts;
          console.log("BSC accounts ",accounts);
          })
-      tx = await dexPoolContract.methods.swapDeposit(amount1, amount2, accs[0]).send({from:vm.accountFrom});
+
+      tx = await dexPoolContract.methods.swapDeposit(amount1, amount2, accs[0]).send({from:vm.accountFrom, gas: 450000});
       console.log(`tx.transactionHash ${tx.transactionHash}`);
       let receipt = await web3eth.eth.getTransactionReceipt(tx.transactionHash);
       //TODO check status == true
